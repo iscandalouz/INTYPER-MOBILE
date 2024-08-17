@@ -9,17 +9,17 @@
 // @match        https://gartic.com.br/*
 // @run-at       document-end
 // @require		 http://code.jquery.com/jquery-3.3.1.min.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/alimentos.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/animais.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/bandeiras.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/desenho_animado.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/got.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/objetos.js
-// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER/master/salas/verbos.js
-// @require		 https://raw.githubusercontent.com/neekm/gartips/master/config.js
-// @require		 https://raw.githubusercontent.com/neekm/gartips/master/functions.js
-// @downloadURL  https://raw.githubusercontent.com/neekm/gartips/master/gartips.user.js
-// @updateURL    https://raw.githubusercontent.com/neekm/gartips/master/gartips.user.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/alimentos.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/animais.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/bandeiras.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/desenho_animado.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/got.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/objetos.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/verbos.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/config.js
+// @require		 https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/functions.js
+// @downloadURL  https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/intyper.user.js
+// @updateURL    https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/intyper.user.js
 // ==/UserScript==
 
 
