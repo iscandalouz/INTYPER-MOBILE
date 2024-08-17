@@ -1,23 +1,18 @@
 // ==UserScript==
 // @grant         none
-// @name          INTYPER
-// @namespace     INTYPER
+// @name          INTYPER-MOBILE
+// @namespace     INTYPER-MOBILE
 // @version       1.0.2
-// @description   MOSTRA POSSIVEIS RESPOSTAS DE DICAS NO GARTIC
+// @description   MOSTRA POSSÍVEIS RESPOSTAS DE DICAS NO GARTIC
 // @author        THEO
 // @match         https://gartic.com.br/*
 // @run-at        document-end
 // @require       http://code.jquery.com/jquery-3.3.1.min.js
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/alimentos.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/animais.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/bandeiras.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/desenho_animado.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/got.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/objetos.js
-// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/verbos.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/alimentos2.js
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/config.js
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/functions.js
-// @downloadURL   https://raw.githubusercontent.com/iscandalouzINTYPER-MOBILE/master/intyper-mobile.user.js
+// @downloadURL   https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/intyper-mobile.user.js
 // @updateURL     https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/intyper-mobile.user.js
 // ==/UserScript==
 
@@ -38,7 +33,7 @@ $(function($) {
 
     // Colocando o botão de notificação para Mostrar ou Esconder o hack
     $('.opcoes').click(function() { // class do GARTIC
-        if ($(this).attr('class') == 'opcoes gartips_hide') {
+        if ($(this).hasClass('gartips_hide')) {
             console.clear(); // Limpa o console
             $(this).addClass('gartips_show').removeClass('gartips_hide');
         } else {
@@ -77,13 +72,82 @@ $(function($) {
     $('#console_botoes').append('<div id="console_field_respostas" style="clear:both; color:#000; font-size:18px;padding:10px; text-align:left; "></div>');
 });
 
+/**
+ *   Mostra o box do script e limpa o console
+ *
+ *   @return void
+ */
+function showBox() {
+    console.clear(); // Limpa o console
+    console.log('Box do script mostrado.');
+    // A exibição do box no console é simulada com logs
+    console.log('Selecionar lista:');
+    $.each(salas, function(i, sala) {
+        console.log(`- ${sala.nome.toUpperCase()} (${sala.arr.length})`);
+    });
+}
+
+/**
+ *   Obtém as respostas baseadas na pesquisa
+ *
+ *   @return void
+ */
 function getRespostas() {
     console.log('Obtendo respostas...');
-    // Implementar a lógica de obtenção das respostas e logar no console
+    var tipo = $('#console_select').val(); // Seletor de lista
+    var lista;
+    switch (tipo) {
+        case 'desenho_animado':
+            lista = desenho_animado;
+            break;
+        case 'animais':
+            lista = animais;
+            break;
+        case 'alimentos':
+            lista = alimentos;
+            break;
+        case 'alimentos2':
+            lista = alimentos2;
+            break;
+        case 'objetos':
+            lista = objetos;
+            break;
+        case 'verbos':
+            lista = verbos;
+            break;
+        case 'got':
+            lista = got;
+            break;
+        case 'bandeiras':
+            lista = bandeiras;
+            break;
+        default:
+            console.error('Tipo de lista não encontrado.');
+            return;
+    }
+
+    var palavraChave = $('#console_search').val(); // Campo de pesquisa
+
+    // Se for uma busca por palavra chave
+    if (palavraChave !== '') {
+        console.log(`Buscando palavras com "${palavraChave}":`);
+        $.each(lista, function(i, palavra) {
+            if (palavra.toLowerCase().includes(palavraChave.toLowerCase())) {
+                console.log(`- ${palavra}`);
+            }
+        });
+    } else {
+        console.log('Nenhuma palavra chave fornecida.');
+    }
 }
 
+/**
+ *   Limpa as respostas exibidas
+ *
+ *   @return void
+ */
 function limparRespostas() {
     console.log('Limpando respostas...');
-    // Implementar a lógica para limpar as respostas e logar no console
+    // Limpar resultados no console
+    console.clear();
 }
-
