@@ -1,190 +1,88 @@
+// ==UserScript==
+// @grant         none
+// @name          INTYPER
+// @namespace     INTYPER
+// @version       1.0.2
+// @description   MOSTRA POSSIVEIS RESPOSTAS DE DICAS NO GARTIC
+// @author        THEO
+// @match         https://gartic.com.br/*
+// @run-at        document-end
+// @require       http://code.jquery.com/jquery-3.3.1.min.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/alimentos.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/animais.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/bandeiras.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/desenho_animado.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/got.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/objetos.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/verbos.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/config.js
+// @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/functions.js
+// @downloadURL   https://raw.githubusercontent.com/iscandalouzINTYPER-MOBILE/master/gartips.user.js
+// @updateURL     https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/gartips.user.js
+// ==/UserScript==
 
-/** ===============================
- *  Arquivo de funções do script
- * ================================
- */
+/** ================
+*   FRONT JQUERY
+* ==================
+*/
 
+// Executando o jQuery no modo noConflict para não dar conflito com o script do gartic
+this.$ = this.jQuery = jQuery.noConflict(true);
 
-/**
- *   Setar resposta na caixa de respostas
- *
- *   @param string str Palavra resposta
- *   @return void
- */
-function setResposta(str) {
-    $("#respostas input").val(str); // campo de resposta do GARTIC
-    $("#respostas input").focus(); // campo de resposta do GARTIC
-}
+$(function($) {
 
+    // fix bug novo layout do gartic
+    $("#tela").css("height", "auto");
 
-/**
- *   Faz a requisição de buscar palavras pela caixa de busca
- *
- *   @param array arr Array com as palavras da sala
- *   @param string str Palavra a ser pesquisada
- *   @return void
- */
-function getSearch(arr, str) {
-    str = str.toLowerCase();
-    for (var i = 0; i < arr.length; i++) {
-        var nome = arr[i].toLowerCase();
-        if (nome.indexOf(str) !== -1) {
-            $('#gartips_field_respostas').append(
-                '[<a id="hck_resposta_search_link_' + i + '" style="cursor:pointer;"><span style="color:#fff;">' + nome + '</span></a>] '
-            );
-            $('#hck_resposta_search_link_' + i).click(function() {
-                setResposta($(this).text().toLowerCase())
-            });
+    var jQuery = window.jQuery;
+
+    // Colocando o botão de notificação para Mostrar ou Esconder o hack
+    $('.opcoes').click(function() { // class do GARTIC
+        if ($(this).attr('class') == 'opcoes gartips_hide') {
+            console.clear(); // Limpa o console
+            $(this).addClass('gartips_show').removeClass('gartips_hide');
+        } else {
+            showBox();
+            $(this).addClass('gartips_hide');
         }
-    }
-}
+    });
 
+    // Adiciona botões e campos ao console
+    console.log('Adicionando opções ao console...');
+    console.log('Selecionar lista:');
+    $.each(salas, function(i, sala) {
+        console.log(`- ${sala.nome.toUpperCase()} (${sala.arr.length})`);
+    });
 
-/**
- *   Mostra o box do script
- *
- *   @return void
- */
-function showBox() {
-    $('#gartips_botoes').show();
-}
+    // Adiciona campo de pesquisa e botões
+    console.log('Campo de pesquisa e botões adicionados ao console.');
 
+    $('#tela').append('<div id="console" style="height:auto;"></div>');
+    $('#console').append('<div id="console_botoes" style="clear: both; padding-top:10px; text-align:right;"></div>');
 
-/**
- *   Limpa o box de respostas
- *
- *   @return void
- */
-function limparRespostas() {
-    $('#gartips_field_respostas').html('');
-    $('#gartips_search').val('');
-}
+    // Select com opções de listas
+    $('#console_botoes').append('<select id="console_select" style="height:39px; width:295px; text-align:center; float:left;"></select>');
+    $.each(salas, function(i, sala) {
+        $('#console_select').append(`<option value="${sala.nome.toLowerCase()}">${sala.nome.toUpperCase()} (${sala.arr.length})</option>`);
+    });
 
+    // Botões
+    $('#console_botoes').append('<input type="text" id="console_search" placeholder="palavra chave" style="text-align:center; margin-left:5px; width:350px; height:30px; float:left" />');
+    $('#console_botoes').append('<button id="console_get_respostas" style="margin-left:5px; width:290px; height:39px; text-align:center; float:left;">Possíveis Respostas</button>');
+    $('#console_get_respostas').click(function() { getRespostas() });
+    $('#console_botoes').append('<button id="console_limpa_respostas" style="margin-left:5px; width: 172px; height:39px; float:left;">Limpar Respostas</button>');
+    $('#console_limpa_respostas').click(function() { limparRespostas() });
 
-/**
- *   Faz a filtragem da dica, busca por possíveis palavras e mostra o box
- *
- *   @return void
- */
+    // Adiciona a div de respostas ao console
+    $('#console_botoes').append('<div id="console_field_respostas" style="clear:both; color:#000; font-size:18px;padding:10px; text-align:left; "></div>');
+});
+
 function getRespostas() {
+    console.log('Obtendo respostas...');
+    // Implementar a lógica de obtenção das respostas e logar no console
+}
 
-    // Pegando tipo de lista
-    var tipo = $('#gartips_select').val();
-    var lista;
-    switch (tipo) {
-        case 'desenho_animado':
-            lista = desenho_animado;
-            break;
-        case 'animais':
-            lista = animais;
-            break;
-        case 'alimentos':
-            lista = alimentos;
-            break;
-        case 'alimentos2':
-            lista = alimentos2;
-            break;
-        case 'objetos':
-            lista = objetos;
-            break;
-        case 'verbos':
-            lista = verbos;
-            break;
-        case 'got':
-            lista = got;
-            break;
-        case 'bandeiras':
-            lista = bandeiras;
-            break;
-        case 'bandeiras':
-            lista = alimentos2;
-            break;
-    }
-
-    var palavraChave = $('#gartips_search').val();
-
-    // limparRespostas resultados anteriores
-    limparRespostas();
-
-    // se for uma busca por palavra chave
-    if (palavraChave !== '') {
-        var dica = palavraChave;
-        getSearch(lista, dica);
-        exit();
-    } else {
-        // Fix caixa de dica
-        $('.traco').each(function(i, obj) {
-            console.log($(this));
-
-            if (obj.innerHTML == "&nbsp;") {
-                obj.textContent = '_';
-            }
-        });
-        // pegando os dados da tela do gartic
-        dica = $('.contentSpan').text();
-
-    }
-
-    // Pegando as letras disponíveis
-    var posicoes = [];
-    for (var i = 0; i < dica.length; i++) {
-        if (dica[i] != '_') posicoes[i] = dica[i];
-
-    }
-    var resultado;
-    // filtrando resposta
-    for (i = 0; i < lista.length; i++) {
-        // retirando espaços do nome na lista
-        nome = lista[i];
-
-        // Verificando a quantidade de letras
-        if (nome.length == dica.length) {
-            // Verifica se tem letras disponíveis
-            if (posicoes.length === 0) {
-                // ====== Verifica apenas a dica sem letras ======
-                if (!nome.match(/ /gi)) {
-                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica_link_' + i + '" style="cursor:pointer;"><span style="color:#fff;">' + lista[i] + '</span></a>] ');
-                    $('#hck_resposta_dica_link_' + i).click(function() {
-                        setResposta($(this).text().toLowerCase())
-                    });
-                }
-
-            } else {
-                // percorrendo as posições
-                for (var i2 = 0; i2 < posicoes.length; i2++) {
-                    // ====== Verifica a dica com letras =====
-
-                    if (typeof posicoes[i2] != 'undefined') {
-                        // se for 'espaço'recebe false
-                        if (/\s/.test(posicoes[i2])) {
-                            posicao = false;
-                        } else {
-                            posicao = posicoes[i2].toLowerCase();
-                        }
-                        // se for 'espaço'recebe false
-                        if (/\s/.test(lista[i][i2])) {
-                            letra = false;
-                        } else {
-                            letra = lista[i][i2].toLowerCase();
-                        }
-
-                        // Verifica se a posição e letra é igual
-                        if (letra === posicao) {
-                            resultado = lista[i];
-                        } else {
-                            resultado = false;
-                            break;
-                        }
-                    }
-                }
-                // Imprime na tela a resposta
-                if (resultado) {
-                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica2_link_' + i + '"style="cursor:pointer;"><span style="color:#fff;">' + resultado + '</span></a>] ');
-                    $('#hck_resposta_dica2_link_' + i).click(function() {
-                        setResposta($(this).text().toLowerCase())
-                    });
-                }
-            } // fim else
-        } // fim if
-    } // fim for
-} // fim function respostas
+function limparRespostas() {
+    console.log('Limpando respostas...');
+    // Implementar a lógica para limpar as respostas e logar no console
+}
