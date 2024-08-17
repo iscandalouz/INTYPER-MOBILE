@@ -17,8 +17,8 @@
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/salas/verbos.js
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/config.js
 // @require       https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/functions.js
-// @downloadURL   https://raw.githubusercontent.com/iscandalouzINTYPER-MOBILE/master/gartips.user.js
-// @updateURL     https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/gartips.user.js
+// @downloadURL   https://raw.githubusercontent.com/iscandalouzINTYPER-MOBILE/master/intyper-mobile.user.js
+// @updateURL     https://raw.githubusercontent.com/iscandalouz/INTYPER-MOBILE/master/intyper-mobile.user.js
 // ==/UserScript==
 
 /** ================
