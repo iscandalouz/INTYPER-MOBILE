@@ -10,10 +10,10 @@ function getRespostas() {
 
     var palavraChave = $('#gartips_search').val();
 
-    // limparRespostas resultados anteriores
+    // Limpar resultados anteriores
     limparRespostas();
 
-    // se for uma busca por palavra chave
+    // Se for uma busca por palavra chave
     if (palavraChave !== '') {
         var dica = palavraChave;
         getSearch(lista, dica);
@@ -27,7 +27,7 @@ function getRespostas() {
                 obj.textContent = '_';
             }
         });
-        // pegando os dados da tela do gartic
+        // Pegando os dados da tela do gartic
         dica = $('.contentSpan').text();
     }
 
@@ -38,9 +38,9 @@ function getRespostas() {
     }
     
     var resultado;
-    // filtrando resposta
+    // Filtrando resposta
     for (i = 0; i < lista.length; i++) {
-        // retirando espaços do nome na lista
+        // Retirando espaços do nome na lista
         nome = lista[i];
 
         // Verificando a quantidade de letras
@@ -49,23 +49,20 @@ function getRespostas() {
             if (posicoes.length === 0) {
                 // ====== Verifica apenas a dica sem letras ======
                 if (!nome.match(/ /gi)) {
-                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica_link_' + i + '" style="cursor:pointer;"><span style="color:#fff;">' + lista[i] + '</span></a>] ');
-                    $('#hck_resposta_dica_link_' + i).click(function() {
-                        setResposta($(this).text().toLowerCase())
-                    });
+                    console.log(`Resposta possível: ${lista[i]}`);
                 }
             } else {
-                // percorrendo as posições
+                // Percorrendo as posições
                 for (var i2 = 0; i2 < posicoes.length; i2++) {
                     // ====== Verifica a dica com letras =====
                     if (typeof posicoes[i2] != 'undefined') {
-                        // se for 'espaço' recebe false
+                        // Se for 'espaço' recebe false
                         if (/\s/.test(posicoes[i2])) {
                             posicao = false;
                         } else {
                             posicao = posicoes[i2].toLowerCase();
                         }
-                        // se for 'espaço' recebe false
+                        // Se for 'espaço' recebe false
                         if (/\s/.test(lista[i][i2])) {
                             letra = false;
                         } else {
@@ -81,14 +78,11 @@ function getRespostas() {
                         }
                     }
                 }
-                // Imprime na tela a resposta
+                // Exibe a resposta no console
                 if (resultado) {
-                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica2_link_' + i + '"style="cursor:pointer;"><span style="color:#fff;">' + resultado + '</span></a>] ');
-                    $('#hck_resposta_dica2_link_' + i).click(function() {
-                        setResposta($(this).text().toLowerCase())
-                    });
+                    console.log(`Resposta possível: ${resultado}`);
                 }
-            } // fim else
-        } // fim if
-    } // fim for
-} // fim function respostas
+            } // Fim else
+        } // Fim if
+    } // Fim for
+} // Fim function getRespostas
