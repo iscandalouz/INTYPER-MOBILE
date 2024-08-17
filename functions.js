@@ -72,31 +72,11 @@ function getRespostas() {
     var tipo = $('#gartips_select').val();
     var lista;
     switch (tipo) {
-        case 'desenho_animado':
-            lista = desenho_animado;
-            break;
-        case 'animais':
-            lista = animais;
-            break;
+            
         case 'alimentos':
             lista = alimentos;
             break;
         case 'alimentos2':
-            lista = alimentos2;
-            break;
-        case 'objetos':
-            lista = objetos;
-            break;
-        case 'verbos':
-            lista = verbos;
-            break;
-        case 'got':
-            lista = got;
-            break;
-        case 'bandeiras':
-            lista = bandeiras;
-            break;
-        case 'bandeiras':
             lista = alimentos2;
             break;
     }
