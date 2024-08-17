@@ -29,16 +29,30 @@ $(function($) {
     // fix bug novo layout do gartic
     $("#tela").css("height", "auto");
 
-    var jQuery = window.jQuery;
-
     // Colocando o botão de notificação para Mostrar ou Esconder o hack
-    $('.opcoes').click(function() { // class do GARTIC
-        if ($(this).hasClass('gartips_hide')) {
-            console.clear(); // Limpa o console
-            $(this).addClass('gartips_show').removeClass('gartips_hide');
+    $('body').append('<button class="btnPequeno" id="infoSala">Info Sala</button>');
+
+    // Estilizando o botão de informações da sala
+    $('#infoSala').css({
+        position: 'absolute',
+        top: '300px',
+        right: '240px',
+        zIndex: 1000,
+        backgroundColor: '#00FF00', // verde
+        color: 'white', // Texto branco
+        border: 'none',
+        padding: '10px 20px',
+        fontSize: '16px',
+        cursor: 'pointer',
+        borderRadius: '5px'
+    });
+
+    $('#infoSala').click(function() {
+        if ($('#console').is(':visible')) {
+            $('#console').hide();
         } else {
             showBox();
-            $(this).addClass('gartips_hide');
+            $('#console').show();
         }
     });
 
@@ -61,37 +75,17 @@ $(function($) {
         $('#console_select').append(`<option value="${sala.nome.toLowerCase()}">${sala.nome.toUpperCase()} (${sala.arr.length})</option>`);
     });
 
-    // Botões
+    // Botões com novas dimensões e posições
     $('#console_botoes').append('<input type="text" id="console_search" placeholder="palavra chave" style="text-align:center; margin-left:5px; width:350px; height:30px; float:left" />');
-    $('#console_botoes').append('<button id="console_get_respostas" style="margin-left:5px; width:290px; height:39px; text-align:center; float:left;">Possíveis Respostas</button>');
+    $('#console_botoes').append('<button id="console_get_respostas" style="position:absolute; top:300px; right:240px; background-color:#00FF00; color:white; border:none; padding:10px 20px; font-size:16px; cursor:pointer; border-radius:5px;">Possíveis Respostas</button>');
     $('#console_get_respostas').click(function() { getRespostas() });
-    $('#console_botoes').append('<button id="console_limpa_respostas" style="margin-left:5px; width: 172px; height:39px; float:left;">Limpar Respostas</button>');
+    $('#console_botoes').append('<button id="console_limpa_respostas" style="position:absolute; top:350px; right:240px; background-color:#00FF00; color:white; border:none; padding:10px 20px; font-size:16px; cursor:pointer; border-radius:5px;">Limpar Respostas</button>');
     $('#console_limpa_respostas').click(function() { limparRespostas() });
 
     // Adiciona a div de respostas ao console
     $('#console_botoes').append('<div id="console_field_respostas" style="clear:both; color:#000; font-size:18px;padding:10px; text-align:left; "></div>');
 });
 
-/**
- *   Mostra o box do script e limpa o console
- *
- *   @return void
- */
-function showBox() {
-    console.clear(); // Limpa o console
-    console.log('Box do script mostrado.');
-    // A exibição do box no console é simulada com logs
-    console.log('Selecionar lista:');
-    $.each(salas, function(i, sala) {
-        console.log(`- ${sala.nome.toUpperCase()} (${sala.arr.length})`);
-    });
-}
-
-/**
- *   Obtém as respostas baseadas na pesquisa
- *
- *   @return void
- */
 function getRespostas() {
     console.log('Obtendo respostas...');
     var tipo = $('#console_select').val(); // Seletor de lista
@@ -141,11 +135,6 @@ function getRespostas() {
     }
 }
 
-/**
- *   Limpa as respostas exibidas
- *
- *   @return void
- */
 function limparRespostas() {
     console.log('Limpando respostas...');
     // Limpar resultados no console
