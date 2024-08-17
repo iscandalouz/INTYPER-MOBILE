@@ -1,3 +1,4 @@
+
 /** ===============================
  *  Arquivo de funções do script
  * ================================
@@ -5,13 +6,14 @@
 
 
 /**
- *   Setar resposta no console
+ *   Setar resposta na caixa de respostas
  *
  *   @param string str Palavra resposta
  *   @return void
  */
 function setResposta(str) {
-    console.log(`Resposta selecionada: ${str}`);
+    $("#respostas input").val(str); // campo de resposta do GARTIC
+    $("#respostas input").focus(); // campo de resposta do GARTIC
 }
 
 
@@ -24,25 +26,27 @@ function setResposta(str) {
  */
 function getSearch(arr, str) {
     str = str.toLowerCase();
-    console.log(`Buscando palavras que contêm "${str}":`);
     for (var i = 0; i < arr.length; i++) {
         var nome = arr[i].toLowerCase();
         if (nome.indexOf(str) !== -1) {
-            console.log(`[${nome}]`);
-            // Adiciona um click listener para logs no console
-            console.log(`Clique para selecionar a resposta: ${nome}`);
+            $('#gartips_field_respostas').append(
+                '[<a id="hck_resposta_search_link_' + i + '" style="cursor:pointer;"><span style="color:#fff;">' + nome + '</span></a>] '
+            );
+            $('#hck_resposta_search_link_' + i).click(function() {
+                setResposta($(this).text().toLowerCase())
+            });
         }
     }
 }
 
 
 /**
- *   Mostra o box do script (no caso, apenas um log de que a caixa foi mostrada)
+ *   Mostra o box do script
  *
  *   @return void
  */
 function showBox() {
-    console.log('Box do script mostrado.');
+    $('#gartips_botoes').show();
 }
 
 
@@ -52,8 +56,8 @@ function showBox() {
  *   @return void
  */
 function limparRespostas() {
-    console.log('Respostas limpas.');
-    // Não há campo de pesquisa no console
+    $('#gartips_field_respostas').html('');
+    $('#gartips_search').val('');
 }
 
 
@@ -63,10 +67,9 @@ function limparRespostas() {
  *   @return void
  */
 function getRespostas() {
-    console.log('Obtendo respostas...');
-    
+
     // Pegando tipo de lista
-    var tipo = $('#console_select').val(); // Substituí #gartips_select por #console_select
+    var tipo = $('#gartips_select').val();
     var lista;
     switch (tipo) {
         case 'desenho_animado':
@@ -98,7 +101,7 @@ function getRespostas() {
             break;
     }
 
-    var palavraChave = $('#console_search').val(); // Substituí #gartips_search por #console_search
+    var palavraChave = $('#gartips_search').val();
 
     // limparRespostas resultados anteriores
     limparRespostas();
@@ -107,28 +110,32 @@ function getRespostas() {
     if (palavraChave !== '') {
         var dica = palavraChave;
         getSearch(lista, dica);
-        return;
+        exit();
     } else {
         // Fix caixa de dica
         $('.traco').each(function(i, obj) {
+            console.log($(this));
+
             if (obj.innerHTML == "&nbsp;") {
                 obj.textContent = '_';
             }
         });
         // pegando os dados da tela do gartic
-        var dica = $('.contentSpan').text();
+        dica = $('.contentSpan').text();
+
     }
 
     // Pegando as letras disponíveis
     var posicoes = [];
     for (var i = 0; i < dica.length; i++) {
         if (dica[i] != '_') posicoes[i] = dica[i];
+
     }
     var resultado;
     // filtrando resposta
     for (i = 0; i < lista.length; i++) {
         // retirando espaços do nome na lista
-        var nome = lista[i];
+        nome = lista[i];
 
         // Verificando a quantidade de letras
         if (nome.length == dica.length) {
@@ -136,9 +143,12 @@ function getRespostas() {
             if (posicoes.length === 0) {
                 // ====== Verifica apenas a dica sem letras ======
                 if (!nome.match(/ /gi)) {
-                    console.log(`[${nome}]`);
-                    console.log(`Clique para selecionar a resposta: ${nome}`);
+                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica_link_' + i + '" style="cursor:pointer;"><span style="color:#fff;">' + lista[i] + '</span></a>] ');
+                    $('#hck_resposta_dica_link_' + i).click(function() {
+                        setResposta($(this).text().toLowerCase())
+                    });
                 }
+
             } else {
                 // percorrendo as posições
                 for (var i2 = 0; i2 < posicoes.length; i2++) {
@@ -146,8 +156,17 @@ function getRespostas() {
 
                     if (typeof posicoes[i2] != 'undefined') {
                         // se for 'espaço'recebe false
-                        var posicao = /\s/.test(posicoes[i2]) ? false : posicoes[i2].toLowerCase();
-                        var letra = /\s/.test(lista[i][i2]) ? false : lista[i][i2].toLowerCase();
+                        if (/\s/.test(posicoes[i2])) {
+                            posicao = false;
+                        } else {
+                            posicao = posicoes[i2].toLowerCase();
+                        }
+                        // se for 'espaço'recebe false
+                        if (/\s/.test(lista[i][i2])) {
+                            letra = false;
+                        } else {
+                            letra = lista[i][i2].toLowerCase();
+                        }
 
                         // Verifica se a posição e letra é igual
                         if (letra === posicao) {
@@ -158,12 +177,14 @@ function getRespostas() {
                         }
                     }
                 }
-                // Imprime no console a resposta
+                // Imprime na tela a resposta
                 if (resultado) {
-                    console.log(`[${resultado}]`);
-                    console.log(`Clique para selecionar a resposta: ${resultado}`);
+                    $('#gartips_field_respostas').append('[<a id="hck_resposta_dica2_link_' + i + '"style="cursor:pointer;"><span style="color:#fff;">' + resultado + '</span></a>] ');
+                    $('#hck_resposta_dica2_link_' + i).click(function() {
+                        setResposta($(this).text().toLowerCase())
+                    });
                 }
-            }
-        }
-    }
-}
+            } // fim else
+        } // fim if
+    } // fim for
+} // fim function respostas
